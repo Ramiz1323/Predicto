@@ -1,5 +1,5 @@
 import './App.css'
-import EmotionDetector from './Features/EmotionDetector'
+import EmotionDetector from './Features/pages/EmotionDetectorPage'
 
 function App() {
   return (
