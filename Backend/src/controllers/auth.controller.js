@@ -2,6 +2,12 @@ const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+/**
+ * @desc Register a new user
+ * @route POST /api/auth/register
+ * @access Public
+ * @payload { username, email, password }   -->   "user": { "username", "email", "password", "_id", "__v": 0 }
+ */
 async function register(req, res) {
   const { username, email, password } = req.body;
   const isAlreadyRegistered = await userModel.findOne({
@@ -36,6 +42,12 @@ async function register(req, res) {
   });
 }
 
+/**
+ * @desc Login a user
+ * @route POST /api/auth/login
+ * @access Public
+ * @payload { email, username, password }   -->   "user": { "username", "email", "password", "_id", "__v": 0 }
+ */
 async function login(req, res) {
     const { email, username, password } = req.body;
 
@@ -70,6 +82,12 @@ async function login(req, res) {
     })
 }
 
+/** 
+ * @desc Get user profile
+ * @route GET /api/auth/profile
+ * @access Private
+ * @payload { username, email, password }   -->   "user": { "username", "email", "_id", "__v": 0 }
+*/
 async function profile(req, res) {
     const user = await userModel.findById(req.user.id);
 
