@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const redis = require("../config/cache.js");
 
 /**
  * @desc Register a new user
@@ -97,8 +98,25 @@ async function profile(req, res) {
     })
 }
 
+/**
+ * @desc Logout user
+ * @route POST /api/auth/logout
+ * @access Private
+ */
+async function logout(req, res) {
+  const token  = req.cookies.token;
+  res.clearCookie("token")
+
+  await redis.set(token, "EX", 3600);
+
+  res.status(200).json({
+    message: "User logged out successfully"
+  })
+}
+
 module.exports = {
     register,
     login,
-    profile
+    profile,
+    logout
 }
