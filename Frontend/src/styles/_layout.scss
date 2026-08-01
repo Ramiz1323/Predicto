@@ -1,0 +1,319 @@
+@use "sass:color";
+@use "variables" as *;
+@use "mixins" as *;
+
+.glass-panel {
+  @include glass-panel;
+}
+
+.landing-screen,
+.auth-screen {
+  @include centered-page(100vh);
+}
+
+.landing-screen {
+  display: grid;
+  place-items: center;
+}
+
+.landing-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.9fr);
+  gap: 28px;
+  padding: 32px;
+  border-radius: $radius-xl;
+  background:
+    radial-gradient(circle at top left, rgba($accent, 0.22), transparent 32%),
+    radial-gradient(circle at bottom right, rgba($accent-3, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    $bg-soft;
+  max-width: 1120px;
+  width: 100%;
+}
+
+.landing-copy,
+.auth-card,
+.auth-panel--hero {
+  display: grid;
+  gap: 16px;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-row--hero {
+  align-items: flex-start;
+}
+
+.brand-mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #f8faff;
+  background: linear-gradient(135deg, $accent, $accent-2 55%, $accent-3);
+  font-size: 1.1rem;
+  font-weight: 800;
+
+  &--large {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+.eyebrow,
+.player-label,
+.mood-key {
+  margin: 0;
+  color: rgba(245, 247, 255, 0.7);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.landing-hero h1,
+.auth-panel h1,
+.auth-card h2 {
+  margin: 0;
+  line-height: 1.04;
+}
+
+.landing-hero h1,
+.auth-panel h1 {
+  max-width: 12ch;
+  font-size: clamp(2.8rem, 4.3vw, 5rem);
+}
+
+.landing-text,
+.auth-strapline {
+  margin: 0;
+  max-width: 62ch;
+  color: rgba(245, 247, 255, 0.86);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hero-actions,
+.track-list,
+.recommendations,
+.mini-track-list {
+  display: grid;
+  gap: 12px;
+}
+
+
+.landing-glow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  min-height: 360px;
+  align-content: stretch;
+}
+
+.landing-glow__tile {
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  &--one {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba($accent, 0.95), rgba($accent, 0.5));
+  }
+
+  &--two {
+    background: linear-gradient(135deg, rgba($accent-2, 0.9), rgba($accent, 0.7));
+  }
+
+  &--three {
+    background: linear-gradient(135deg, rgba($accent-3, 0.92), rgba($accent-2, 0.58));
+  }
+
+  &--four {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba($accent-3, 0.72), rgba($accent-2, 0.36));
+  }
+}
+
+.hero-actions {
+  grid-template-columns: repeat(2, minmax(0, 180px));
+  align-items: start;
+}
+
+.primary-action,
+.secondary-action,
+.auth-form button {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform $transition-fast,
+    box-shadow $transition-fast,
+    border-color $transition-fast;
+}
+
+.primary-action,
+.auth-form button {
+  @include gradient-button();
+}
+
+.secondary-action,
+.secondary-action--full {
+  @include surface-button();
+}
+
+.primary-action:hover,
+.secondary-action:hover,
+.auth-form button:hover,
+.secondary-action--full:hover {
+  transform: translateY(-1px);
+}
+
+.auth-screen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.auth-panel {
+  padding: 28px;
+  border-radius: $radius-xl;
+
+  &--copy {
+    background:
+      radial-gradient(circle at top left, rgba($accent-2, 0.14), transparent 32%),
+      radial-gradient(circle at bottom right, rgba($accent, 0.12), transparent 28%),
+      rgba(10, 16, 29, 0.92);
+  }
+
+  &--hero {
+    min-height: 360px;
+    align-content: center;
+    padding: 32px;
+  }
+
+  &--accent {
+    background:
+      radial-gradient(circle at top right, rgba(167, 139, 250, 0.18), transparent 30%),
+      rgba(10, 16, 29, 0.92);
+  }
+}
+
+.auth-card {
+  padding: 28px;
+  border-radius: $radius-lg;
+  background: $panel-strong;
+}
+
+.auth-form {
+  display: grid;
+  gap: 14px;
+
+  label {
+    display: grid;
+    gap: 8px;
+    color: $text;
+    font-size: 0.92rem;
+  }
+
+  input {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 14px;
+    color: $text;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+
+    &:focus {
+      outline: none;
+      border-color: rgba($accent, 0.8);
+      box-shadow: 0 0 0 4px rgba($accent, 0.15);
+    }
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+.form-error {
+  margin: 0;
+  color: #ffbdd1;
+}
+
+.auth-switch {
+  margin: 0;
+  text-align: center;
+  color: $muted;
+
+  a {
+    color: $accent;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 960px) {
+  .landing-screen,
+  .auth-screen,
+  .landing-hero,
+  .auth-screen {
+    width: min(100vw - 20px, 1180px);
+  }
+
+  .landing-hero,
+  .auth-screen {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-glow {
+    min-height: 240px;
+  }
+
+  .hero-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .auth-screen {
+    min-height: auto;
+    padding-top: 20px;
+  }
+
+  .landing-hero,
+  .auth-panel,
+  .auth-card {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-screen,
+  .auth-screen {
+    width: min(100vw - 20px, 1180px);
+    padding: 10px 0 28px;
+  }
+
+  .landing-hero,
+  .auth-panel,
+  .auth-card,
+  .glass-panel {
+    border-radius: 22px;
+  }
+
+  .brand-row {
+    align-items: flex-start;
+  }
+
+  .hero-actions {
+    grid-template-columns: 1fr;
+  }
+}

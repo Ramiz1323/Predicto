@@ -1,16 +1,11 @@
-import React from 'react'
-
 const Expression = ({ videoRef, emotion }) => {
   return (
-    <div style={{ textAlign: "center" }}>
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        width={500}
-      />
-
-      <h2>{emotion}</h2>
+    <div className="expression-shell">
+      <video ref={videoRef} autoPlay playsInline className="expression-video" />
+      <div className="expression-state">
+        <span>Live emotion</span>
+        <strong>{emotion}</strong>
+      </div>
     </div>
   );
 }
