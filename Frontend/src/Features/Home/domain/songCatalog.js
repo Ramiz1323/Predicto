@@ -1,79 +1,67 @@
 export const moodCatalog = [
   {
     key: "very happy",
-    label: "Very Happy",
-    subtitle: "Bright, loud, euphoric tracks.",
-    accent: "#ffb347",
-    description: "Full-energy tracks that match big smiles and celebratory moments.",
+    label: "Very happy",
+    description: "Bright, high-energy tracks for an uplifted state.",
   },
   {
     key: "happy",
     label: "Happy",
-    subtitle: "Uplifting, groovy, catchy songs.",
-    accent: "#ffd166",
-    description: "Light, feel-good picks for relaxed confidence and upbeat moods.",
+    description: "Warm, easygoing songs that keep the momentum light.",
   },
   {
     key: "surprised",
     label: "Surprised",
-    subtitle: "Fast switches, punchy hooks.",
-    accent: "#7dd3fc",
-    description: "Sharp transitions and playful energy for unexpected reactions.",
+    description: "Playful sounds with a little edge and movement.",
   },
   {
     key: "sad",
     label: "Sad",
-    subtitle: "Soft, emotional, reflective tracks.",
-    accent: "#a78bfa",
-    description: "Slower songs that sit with the mood instead of fighting it.",
+    description: "Calmer tracks for reflective, slower moments.",
   },
 ];
 
-export const featuredSongs = {
+export const songLibrary = {
   "very happy": [
-    { title: "Golden Hours", artist: "Nova Bloom", duration: "3:14" },
-    { title: "Run The Lights", artist: "Pulse Avenue", duration: "2:58" },
-    { title: "Skyline Fever", artist: "Milo & The Echo", duration: "3:36" },
+    { title: "Solar Bloom", artist: "Nova Pulse" },
+    { title: "Golden Rush", artist: "Luma Field" },
+    { title: "Skyline Spark", artist: "Orbit Vale" },
   ],
   happy: [
-    { title: "Weekend Replay", artist: "Sonic Lane", duration: "3:02" },
-    { title: "Easy On The Soul", artist: "The Lull Signals", duration: "3:45" },
-    { title: "Colorwave", artist: "Jade Circuit", duration: "2:49" },
+    { title: "Soft Neon", artist: "Mira Wave" },
+    { title: "Late Afternoon", artist: "Cinder Club" },
+    { title: "Warm Static", artist: "Haze Theory" },
   ],
   surprised: [
-    { title: "Signal Jump", artist: "North State", duration: "2:37" },
-    { title: "Midnight Switch", artist: "The Arcades", duration: "3:09" },
-    { title: "Echo Blink", artist: "Velvet Static", duration: "2:55" },
+    { title: "Flash Frame", artist: "Kairo Drift" },
+    { title: "Signal Shift", artist: "Arc Terrace" },
+    { title: "Electric Bloom", artist: "Velvet Byte" },
   ],
   sad: [
-    { title: "Blue Hour", artist: "Still Water", duration: "3:51" },
-    { title: "Slow Fire", artist: "The Low Notes", duration: "4:02" },
-    { title: "Raincheck", artist: "Morrow", duration: "3:33" },
+    { title: "Low Tide", artist: "Sable North" },
+    { title: "Afterglow Rain", artist: "Moon Harbor" },
+    { title: "Quiet Gravity", artist: "Blue Meridian" },
   ],
 };
 
 export function getMoodKeyFromEmotion(emotion = "") {
-  const value = emotion.toLowerCase();
+  const normalized = emotion.toLowerCase();
 
-  if (value.includes("very happy")) {
+  if (normalized.includes("very happy") || normalized.includes("excited") || normalized.includes("joy")) {
     return "very happy";
   }
 
-  if (value.includes("happy")) {
-    return "happy";
-  }
-
-  if (value.includes("surprise")) {
+  if (normalized.includes("surprised") || normalized.includes("astonished")) {
     return "surprised";
   }
 
-  if (value.includes("sad")) {
+  if (normalized.includes("sad") || normalized.includes("down")) {
     return "sad";
   }
 
   return "happy";
 }
 
-export function getSongsForMood(mood) {
-  return featuredSongs[mood] ?? featuredSongs.happy;
+export function getSongsForMood(moodKey) {
+  return songLibrary[moodKey] ?? songLibrary.happy;
 }
