@@ -1,0 +1,519 @@
+@use '../../Home/styles/variables' as *;
+@use '../../Home/styles/mixins' as *;
+@use 'sass:color';
+
+// =============================================
+//  AUTH PAGES — Login & Register
+//  Synced with the landing page design system
+// =============================================
+
+// ── Page shell ───────────────────────────────
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  background: $navy-dark;
+  font-family: $font-body;
+  color: $white;
+  overflow: hidden;
+  position: relative;
+
+  // ── Animated background (same orb system as home) ──
+  &__bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: authOrbFloat 14s ease-in-out infinite alternate;
+
+      &--1 {
+        width: 500px; height: 500px;
+        top: -180px; left: -180px;
+        background: radial-gradient(circle, rgba($crimson, 0.3) 0%, transparent 70%);
+        animation-delay: 0s;
+      }
+      &--2 {
+        width: 420px; height: 420px;
+        bottom: -150px; right: -150px;
+        background: radial-gradient(circle, rgba($violet, 0.32) 0%, transparent 70%);
+        animation-delay: -5s;
+      }
+      &--3 {
+        width: 260px; height: 260px;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, rgba($violet-dim, 0.22) 0%, transparent 70%);
+        animation-delay: -2s;
+      }
+    }
+
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba($violet, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba($violet, 0.022) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+  }
+
+  > * { position: relative; z-index: 1; }
+}
+
+// ── Split layout ─────────────────────────────
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 100vh;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Left panel — brand / hero ─────────────────
+.auth-hero {
+  @include flex-center;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem 3rem;
+  position: relative;
+  overflow: hidden;
+  background: rgba($navy-dark, 0.4);
+  border-right: 1px solid rgba($violet, 0.1);
+
+  // Hide on mobile
+  @media (max-width: 900px) { display: none; }
+
+  // Decorative corner lines (HUD feel)
+  &::before {
+    content: '';
+    position: absolute;
+    top: 24px; left: 24px;
+    width: 36px; height: 36px;
+    border-top: 2px solid rgba($violet, 0.6);
+    border-left: 2px solid rgba($violet, 0.6);
+    border-radius: 3px 0 0 0;
+    filter: drop-shadow(0 0 4px $violet);
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 24px; right: 24px;
+    width: 36px; height: 36px;
+    border-bottom: 2px solid rgba($crimson, 0.5);
+    border-right: 2px solid rgba($crimson, 0.5);
+    border-radius: 0 0 3px 0;
+    filter: drop-shadow(0 0 4px $crimson);
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .logo-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, $crimson, $violet);
+      @include flex-center;
+      font-size: 1.3rem;
+      box-shadow: 0 4px 20px rgba($crimson, 0.4), 0 0 15px rgba($violet, 0.3);
+    }
+
+    .logo-name {
+      font-family: $font-display;
+      font-size: 1.6rem;
+      font-weight: 800;
+      @include gradient-text($crimson, $violet-bright);
+    }
+  }
+
+  &__headline {
+    font-family: $font-display;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    text-align: center;
+    max-width: 380px;
+
+    .accent { @include gradient-text($crimson, $violet-bright); }
+  }
+
+  &__sub {
+    color: $white-muted;
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: center;
+    max-width: 340px;
+  }
+
+  // Feature pills
+  &__pills {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 0.5rem;
+  }
+
+  &__pill {
+    @include glass(rgba($navy-dark, 0.55), 12px, rgba($violet, 0.2));
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.85rem;
+    color: $white-text;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba($violet, 0.4);
+      transform: translateX(4px);
+    }
+
+    .pill-icon {
+      font-size: 1.1rem;
+      filter: drop-shadow(0 0 6px rgba($violet, 0.5));
+      flex-shrink: 0;
+    }
+  }
+}
+
+// ── Right panel — form ────────────────────────
+.auth-form-panel {
+  @include flex-center;
+  flex-direction: column;
+  padding: 2.5rem 2rem;
+  overflow-y: auto;
+
+  @media (max-width: 900px) {
+    min-height: 100vh;
+    padding: 2rem 1.25rem;
+  }
+}
+
+// ── Auth card ─────────────────────────────────
+.auth-card {
+  @include glass($navy-glass, 20px, rgba($violet, 0.15));
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2.25rem;
+  border-radius: 1.5rem;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba($violet, 0.1) inset;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle top glow stripe
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, $crimson, $violet, $violet-bright);
+    border-radius: 1.5rem 1.5rem 0 0;
+    box-shadow: 0 0 12px rgba($violet, 0.5);
+  }
+
+  // Mobile: show brand at top of card
+  &__mobile-brand {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+
+    @media (max-width: 900px) { display: flex; }
+
+    .logo-icon {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, $crimson, $violet);
+      @include flex-center;
+      font-size: 1rem;
+      box-shadow: 0 4px 14px rgba($crimson, 0.4);
+    }
+
+    .logo-name {
+      font-family: $font-display;
+      font-size: 1.25rem;
+      font-weight: 800;
+      @include gradient-text($crimson, $violet-bright);
+    }
+  }
+
+  &__eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $violet-bright;
+    margin-bottom: 0.4rem;
+    text-shadow: 0 0 10px rgba($violet, 0.5);
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  &__sub {
+    font-size: 0.88rem;
+    color: $white-muted;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+}
+
+// ── Auth form ─────────────────────────────────
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: $white-muted;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .input-icon {
+        position: absolute;
+        left: 0.9rem;
+        font-size: 1rem;
+        pointer-events: none;
+        opacity: 0.55;
+        transition: opacity 0.2s;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba($violet, 0.2);
+        border-radius: 0.75rem;
+        color: $white;
+        font-family: $font-body;
+        font-size: 0.9rem;
+        transition: all 0.25s ease;
+        outline: none;
+
+        &::placeholder { color: rgba(255,255,255,0.3); }
+
+        &:focus {
+          border-color: rgba($violet, 0.6);
+          background: rgba($violet, 0.06);
+          box-shadow:
+            0 0 0 3px rgba($violet, 0.12),
+            0 0 20px rgba($violet, 0.08);
+
+          ~ .input-icon { opacity: 0.9; }
+        }
+
+        &:focus + .input-icon { opacity: 0.9; }
+      }
+
+      // Icon opacity when sibling input is focused
+      &:focus-within .input-icon { opacity: 0.9; }
+    }
+  }
+
+  // Error banner
+  .form-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba($crimson, 0.12);
+    border: 1px solid rgba($crimson, 0.3);
+    border-radius: 0.65rem;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.82rem;
+    color: color.adjust($crimson, $lightness: 20%);
+    animation: shakeErr 0.4s ease;
+  }
+
+  // Submit button
+  .auth-submit {
+    margin-top: 0.4rem;
+    width: 100%;
+    padding: 0.85rem;
+    border-radius: 0.85rem;
+    font-family: $font-display;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    border: none;
+    color: $white;
+    background: linear-gradient(135deg, $crimson 0%, $violet 60%, $violet-bright 100%);
+    background-size: 200% auto;
+    box-shadow: 0 4px 22px rgba($crimson, 0.4), 0 0 0 1px rgba($violet-bright, 0.15) inset;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    // shimmer
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -75%;
+      width: 50%; height: 200%;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+    }
+
+    &:hover {
+      background-position: right center;
+      box-shadow: 0 8px 35px rgba($crimson, 0.55), 0 0 40px rgba($violet, 0.2);
+      transform: translateY(-2px);
+      &::before { left: 125%; }
+    }
+
+    &:active { transform: translateY(0); }
+
+    &:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+}
+
+// ── Switch link ───────────────────────────────
+.auth-switch {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: $white-muted;
+
+  a {
+    color: $violet-bright;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      color: $white;
+      border-bottom-color: rgba($violet-bright, 0.5);
+      text-shadow: 0 0 8px rgba($violet, 0.5);
+    }
+  }
+}
+
+// ── Back-to-home link ─────────────────────────
+.auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: $white-muted;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  align-self: flex-start;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+
+  &:hover {
+    color: $violet-bright;
+    gap: 0.6rem;
+    text-shadow: 0 0 8px rgba($violet, 0.4);
+  }
+
+  .back-arrow {
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+  }
+  &:hover .back-arrow { transform: translateX(-3px); }
+}
+
+// ── Divider ───────────────────────────────────
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.2rem 0;
+  color: rgba(255,255,255,0.2);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba($violet, 0.15);
+  }
+}
+
+// ── Keyframes ─────────────────────────────────
+@keyframes authOrbFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(20px, -30px) scale(1.06); }
+}
+
+@keyframes shakeErr {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Entry animation ───────────────────────────
+.auth-card {
+  animation: fadeIn 0.6s ease both;
+}
+.auth-hero__brand   { animation: fadeIn 0.5s ease 0.1s both; }
+.auth-hero__headline{ animation: fadeIn 0.5s ease 0.2s both; }
+.auth-hero__sub     { animation: fadeIn 0.5s ease 0.3s both; }
+.auth-hero__pills   { animation: fadeIn 0.5s ease 0.4s both; }
+
+// ── Responsive ───────────────────────────────
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2rem 1.4rem;
+    border-radius: 1.2rem;
+  }
+
+  .auth-form-panel {
+    padding: 1.5rem 0.85rem;
+    justify-content: flex-start;
+    padding-top: 2rem;
+  }
+
+  .auth-back {
+    margin-bottom: 1.5rem;
+  }
+}
