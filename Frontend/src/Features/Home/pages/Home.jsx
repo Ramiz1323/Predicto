@@ -1,181 +1,301 @@
-import { Link } from "react-router-dom";
-import { moodCatalog } from "../domain/songCatalog.js";
+import { Link } from 'react-router-dom';
+import '../styles/Home.scss';
 
-const highlights = [
+// ─── Data ────────────────────────────────────────────────
+const STEPS = [
   {
-    title: "Facial Synthesis",
-    description: "Tracks micro-expressions to shift the soundtrack in real time.",
+    number: '01',
+    icon: '📷',
+    title: 'Open Your Camera',
+    body: 'Allow camera access and let Predicto see your face in real time — privacy-first, nothing is stored.',
+    accent: 'accent-red',
   },
   {
-    title: "Adaptive Queue",
-    description: "Transitions between moods without breaking the flow.",
+    number: '02',
+    icon: '🧠',
+    title: 'AI Reads Your Mood',
+    body: 'Our deep-learning model analyses your facial micro-expressions and identifies your current emotion.',
+    accent: 'accent-blue',
   },
   {
-    title: "Mood Sync",
-    description: "Four clear mood buckets keep the experience predictable and fast.",
+    number: '03',
+    icon: '🎵',
+    title: 'Songs Are Suggested',
+    body: 'A curated playlist matching your exact vibe is generated and streamed straight to you.',
+    accent: 'accent-teal',
+  },
+  {
+    number: '04',
+    icon: '🔄',
+    title: 'Mood Changes — List Updates',
+    body: 'As your expression shifts, Predicto adapts the suggestions in real time. Music that evolves with you.',
+    accent: 'accent-crimson',
   },
 ];
 
-const steps = [
-  "Open the camera and let the detector read your expression.",
-  "Map the result into one of the four mood buckets.",
-  "Serve tracks that match the emotional temperature instantly.",
+const EMOTIONS = [
+  { emoji: '😊', name: 'Happy' },
+  { emoji: '😢', name: 'Sad' },
+  { emoji: '😠', name: 'Angry' },
+  { emoji: '😲', name: 'Surprised' },
+  { emoji: '😨', name: 'Fearful' },
+  { emoji: '🤢', name: 'Disgusted' },
+  { emoji: '😐', name: 'Neutral' },
+  { emoji: '😌', name: 'Calm' },
 ];
 
-function Home() {
+const EMOTION_TAGS = [
+  { label: '😊 Happy', cls: '--1' },
+  { label: '😢 Sad', cls: '--2' },
+  { label: '😠 Surprise', cls: '--3' },
+  { label: '😐 Neutral', cls: '--4' },
+];
+
+const BAR_ROWS = [
+  { label: 'Happy', fillCls: '--h', pct: '82%' },
+  { label: 'Sad', fillCls: '--s', pct: '55%' },
+  { label: 'Angry', fillCls: '--a', pct: '30%' },
+  { label: 'Neutral', fillCls: '--n', pct: '15%' },
+];
+
+// ─── Component ───────────────────────────────────────────
+export default function Home() {
   return (
-    <main className="landing-shell">
-      <section className="hero-section">
-        <header className="topbar">
-          <Link className="brand-lockup" to="/">
-            <span className="brand-mark">P</span>
-            <div>
-              <strong>Predicto</strong>
-              <span>Mood-aware music</span>
-            </div>
+    <div className="home-page">
+      {/* ── Animated Background ── */}
+      <div className="home-page__bg" aria-hidden="true">
+        <div className="orb orb--1" />
+        <div className="orb orb--2" />
+        <div className="orb orb--3" />
+        <div className="grid-overlay" />
+      </div>
+
+      {/* ══════════════════════════════════════
+          NAVBAR
+      ══════════════════════════════════════ */}
+      <nav className="navbar" role="navigation" aria-label="Main navigation">
+        <Link to="/" className="navbar__logo">
+          <span className="logo-icon">🎵</span>
+          <span className="logo-text">Predicto</span>
+        </Link>
+
+        <ul className="navbar__links">
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#emotions">Emotions</a></li>
+        </ul>
+
+        <div className="navbar__cta">
+          <Link to="/login" className="btn btn--ghost">Sign In</Link>
+          <Link to="/register" className="btn btn--primary">Get Started</Link>
+        </div>
+      </nav>
+
+      {/* ══════════════════════════════════════
+          HERO
+      ══════════════════════════════════════ */}
+      <section className="hero" aria-labelledby="hero-heading">
+        <div className="hero__badge">
+          <span className="badge-dot" aria-hidden="true" />
+          AI-Powered Emotion Music
+        </div>
+
+        <h1 className="hero__headline" id="hero-heading">
+          <span className="gradient">Feel the Music</span>
+          <span className="line-accent">that Feels You</span>
+        </h1>
+
+        <p className="hero__sub">
+          Predicto reads your facial expressions through your camera and curates
+          the perfect playlist for your exact mood — in real time, every time.
+        </p>
+
+        <div className="hero__actions">
+          <Link to="/predict" className="btn btn--primary btn--large">
+            🎥 Try It Now
           </Link>
+          <a href="#how-it-works" className="btn btn--ghost btn--large">
+            See How It Works
+          </a>
+        </div>
 
-          <nav className="topnav" aria-label="Primary navigation">
-            <a href="#features">Features</a>
-            <a href="#moods">Moods</a>
-            <a href="#how-it-works">How it works</a>
-          </nav>
-
-          <div className="topbar-actions">
-            <Link className="ghost-button" to="/login">
-              Login
-            </Link>
-            <Link className="primary-button primary-button--small" to="/register">
-              Register
-            </Link>
+        {/* Camera preview card */}
+        <div className="hero__preview">
+          <div className="preview-card">
+            {EMOTION_TAGS.map((t) => (
+              <span
+                key={t.cls}
+                className={`emotion-tag emotion-tag${t.cls}`}
+                aria-hidden="true"
+              >
+                {t.label}
+              </span>
+            ))}
+            <span className="cam-icon" aria-hidden="true">📸</span>
+            <span className="cam-label">Camera Feed Preview</span>
+            <span className="corner corner--tl" aria-hidden="true" />
+            <span className="corner corner--tr" aria-hidden="true" />
+            <span className="corner corner--bl" aria-hidden="true" />
+            <span className="corner corner--br" aria-hidden="true" />
           </div>
-        </header>
-
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <p className="eyebrow">Real-time mood engine</p>
-            <h1>
-              Your mood, <span>your soundtrack</span>.
-            </h1>
-            <p className="hero-intro">
-              Predicto reads facial cues, maps them into a simple mood system, and keeps the next song aligned with the moment.
-            </p>
-
-            <div className="hero-actions">
-              <Link className="primary-button" to="/predict">
-                Get Started
-              </Link>
-              <a className="secondary-button" href="#features">
-                Explore Features
-              </a>
-            </div>
-
-            <ul className="metric-row" aria-label="Product highlights">
-              <li>
-                <strong>250K+</strong>
-                <span>sessions tuned</span>
-              </li>
-              <li>
-                <strong>4</strong>
-                <span>mood buckets</span>
-              </li>
-              <li>
-                <strong>&lt;1s</strong>
-                <span>response time</span>
-              </li>
-            </ul>
-          </div>
-
-          <div className="hero-panel">
-            <div className="hero-card">
-              <div className="hero-card__visual">
-                <div className="scan-frame" />
-                <div className="scan-frame scan-frame--inner" />
-                <div className="hero-orb hero-orb--one" />
-                <div className="hero-orb hero-orb--two" />
-                <div className="hero-wave" />
-              </div>
-
-              <div className="hero-card__content">
-                <div>
-                  <p className="card-kicker">Detection</p>
-                  <h2>Melancholic</h2>
-                  <p className="card-copy">Confidence 94% · queued for a softer mix</p>
-                </div>
-
-                <div className="mini-bars" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="preview-glow" aria-hidden="true" />
         </div>
       </section>
 
-      <section className="content-section" id="features">
-        <div className="section-heading">
-          <p className="eyebrow">Organized experience</p>
-          <h2>Everything is grouped so the page reads cleanly on any screen size.</h2>
-          <p>
-            The layout keeps one clear hero, a compact feature grid, a focused explanation section, and a single conversion block.
-          </p>
-        </div>
+      {/* ══════════════════════════════════════
+          HOW IT WORKS
+      ══════════════════════════════════════ */}
+      <section
+        className="how-it-works"
+        id="how-it-works"
+        aria-labelledby="how-heading"
+      >
+        <p className="how-it-works__label">The Process</p>
+        <h2 className="how-it-works__title" id="how-heading">
+          From Face to <span>Playlist</span> in Seconds
+        </h2>
+        <p className="how-it-works__desc">
+          Four simple steps powered by cutting-edge computer vision and music intelligence.
+        </p>
 
-        <div className="feature-grid">
-          {highlights.map((item) => (
-            <article key={item.title} className="feature-card">
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
+        <div className="how-it-works__steps">
+          {STEPS.map((s) => (
+            <article className={`step-card step-card--${s.accent}`} key={s.number}>
+              <span className="step-card__number">Step {s.number}</span>
+              <span className="step-card__icon" aria-hidden="true">{s.icon}</span>
+              <h3 className="step-card__title">{s.title}</h3>
+              <p className="step-card__body">{s.body}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="content-section story-section" id="how-it-works">
-        <div className="story-copy">
-          <p className="eyebrow">How it works</p>
-          <h2>Simple flow, less visual noise, better mobile behavior.</h2>
-          <p>
-            The interface scales by stacking panels on smaller devices while preserving the same reading order, spacing, and call to action hierarchy.
-          </p>
+      {/* ══════════════════════════════════════
+          FEATURES
+      ══════════════════════════════════════ */}
+      <section className="features" id="features" aria-labelledby="feat-heading">
+        <div className="features__inner">
+          {/* Left copy */}
+          <div className="features__copy">
+            <p className="features__label">Why Predicto?</p>
+            <h2 className="features__title" id="feat-heading">
+              Music That Actually <span>Understands</span> You
+            </h2>
+            <p className="features__body">
+              Forget manually picking moods or genres. Predicto's on-device facial
+              expression engine analyses 468 facial landmarks to deliver hyper-accurate
+              emotion detection — no data leaves your device.
+            </p>
 
-          <ol className="step-list">
-            {steps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-        </div>
+            <ul className="features__list">
+              {[
+                'Real-time expression analysis at 30 fps',
+                'MediaPipe-powered, runs fully on-device',
+                'Supports 7+ distinct emotional states',
+                'Instant playlist refresh as mood shifts',
+                'Privacy-first — zero camera data stored',
+                'Works in low-light conditions',
+              ].map((item) => (
+                <li key={item}>
+                  <span className="check" aria-hidden="true">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-        <aside className="mood-panel" id="moods">
-          <p className="eyebrow">Mood buckets</p>
-          <div className="mood-chip-list">
-            {moodCatalog.map((mood) => (
-              <div key={mood.key} className="mood-chip">
-                <strong>{mood.label}</strong>
-                <span>{mood.description}</span>
-              </div>
-            ))}
+            <Link to="/predict" className="btn btn--ghost btn--large">
+              🚀 Launch Predicto
+            </Link>
           </div>
-        </aside>
-      </section>
 
-      <section className="cta-section">
-        <p className="eyebrow">Ready to try it?</p>
-        <h2>Open the detector and let the page adapt to your expression.</h2>
-        <div className="cta-actions">
-          <Link className="primary-button" to="/predict">
-            Start Detection
-          </Link>
-          <Link className="secondary-button" to="/register">
-            Create Account
-          </Link>
+          {/* Right visual */}
+          <div className="features__visual">
+            <div className="vis-card">
+              <div className="emotion-display">
+                <span className="face" aria-hidden="true">😊</span>
+                <span className="emotion-name">Happy</span>
+
+                <div className="progress-bars">
+                  {BAR_ROWS.map((row) => (
+                    <div className="bar-row" key={row.label}>
+                      <span className="bar-label">{row.label}</span>
+                      <div className="bar-track" role="progressbar" aria-label={row.label} aria-valuenow={parseInt(row.pct)}>
+                        <div className={`bar-fill bar-fill${row.fillCls}`} />
+                      </div>
+                      <span className="bar-pct">{row.pct}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="song-suggestion">
+                <div className="song-art" aria-hidden="true">🎵</div>
+                <div className="song-info">
+                  <div className="song-title">Blinding Lights</div>
+                  <div className="song-artist">The Weeknd</div>
+                </div>
+                <button className="song-play" aria-label="Play song">▶</button>
+              </div>
+            </div>
+
+            <span className="float-badge" aria-hidden="true">✨ Live Detection</span>
+          </div>
         </div>
       </section>
-    </main>
+
+      {/* ══════════════════════════════════════
+          EMOTIONS GRID
+      ══════════════════════════════════════ */}
+      <section className="emotions" id="emotions" aria-labelledby="emo-heading">
+        <p className="emotions__label">Recognised Moods</p>
+        <h2 className="emotions__title" id="emo-heading">
+          Every <span>Emotion</span> Has Its Sound
+        </h2>
+        <div className="emotions__grid">
+          {EMOTIONS.map((e) => (
+            <div className="emotion-chip" key={e.name}>
+              <span className="chip-emoji" aria-hidden="true">{e.emoji}</span>
+              <span className="chip-name">{e.name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          CTA BANNER
+      ══════════════════════════════════════ */}
+      <section className="cta-banner" aria-labelledby="cta-heading">
+        <div className="cta-banner__inner">
+          <span className="cta-banner__emoji" aria-hidden="true">🎶</span>
+          <h2 className="cta-banner__title" id="cta-heading">
+            Ready to <span>Feel</span> the Difference?
+          </h2>
+          <p className="cta-banner__sub">
+            Turn on your camera, let your emotions speak, and discover music that
+            was always meant for this moment.
+          </p>
+          <div className="cta-banner__actions">
+            <Link to="/predict" className="btn btn--primary btn--large">🎥 Start Now — It's Free</Link>
+            <Link to="/register" className="btn btn--ghost   btn--large">Create an Account</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          FOOTER
+      ══════════════════════════════════════ */}
+      <footer className="footer">
+        <div className="footer__brand">
+          <span className="logo-icon" aria-hidden="true">🎵</span>
+          <span className="brand-name">Predicto</span>
+        </div>
+        <p className="footer__copy">© 2025 Predicto · Built with ❤️ &amp; AI</p>
+        <nav className="footer__links" aria-label="Footer navigation">
+          <Link to="/login">Sign In</Link>
+          <Link to="/register">Register</Link>
+          <a href="#how-it-works">How It Works</a>
+        </nav>
+      </footer>
+    </div>
   );
 }
-
-export default Home;

@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+// =============================================
+//  MIXINS
+// =============================================
+
+// Glassmorphism card
+@mixin glass($bg: $navy-glass, $blur: 18px, $border: $white-border) {
+  background: $bg;
+  backdrop-filter: blur($blur) saturate(160%);
+  -webkit-backdrop-filter: blur($blur) saturate(160%);
+  border: 1px solid $border;
+  border-radius: $card-radius;
+}
+
+// Gradient text
+@mixin gradient-text($from: $crimson, $to: $violet) {
+  background: linear-gradient(135deg, $from, $to);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Flex shortcuts
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Section wrapper
+@mixin section {
+  padding: $section-padding;
+  position: relative;
+  overflow: hidden;
+}
+
+// Glow aura
+@mixin glow($color, $size: 350px, $opacity: 0.18) {
+  &::before {
+    content: '';
+    position: absolute;
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba($color, $opacity) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
