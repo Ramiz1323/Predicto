@@ -1034,3 +1034,312 @@
 @keyframes barGrow {
   from { width: 0; }
 }
+
+// =============================================
+//  RESPONSIVE — BREAKPOINTS
+//  1024px  → large tablet / small laptop
+//   768px  → tablet / landscape phone
+//   640px  → small tablet
+//   480px  → mobile
+// =============================================
+
+// ─── 1024px ───────────────────────────────
+@media (max-width: 1024px) {
+
+  // Navbar: tighten horizontal padding
+  .navbar {
+    padding: 0.9rem 1.5rem;
+    margin: 0.75rem 1rem;
+  }
+
+  // Hero: give it more breathing room
+  .hero {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+
+    &__preview .preview-card {
+      width: clamp(280px, 80vw, 620px);
+    }
+  }
+
+  // How it works: 2-col grid
+  .how-it-works {
+    padding: 4rem 1.5rem;
+    &__steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  // Features already handled by its own 860px mq
+
+  // Emotions: allow 4 per row
+  .emotions {
+    padding: 4rem 1.5rem;
+    &__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  // CTA banner: more compact padding
+  .cta-banner__inner {
+    padding: 3rem 2rem;
+  }
+}
+
+// ─── 768px ────────────────────────────────
+@media (max-width: 768px) {
+
+  // Navbar: collapse links, compact CTA
+  .navbar {
+    padding: 0.8rem 1.2rem;
+    margin: 0.6rem 0.75rem;
+
+    &__links { display: none; }
+
+    &__cta {
+      gap: 0.5rem;
+      .btn { padding: 0.5rem 0.9rem; font-size: 0.8rem; }
+    }
+
+    .logo-text { font-size: 1.2rem; }
+  }
+
+  // Hero: shrink heading + preview card
+  .hero {
+    padding: 3.5rem 1.2rem;
+    min-height: auto;
+
+    &__badge { font-size: 0.7rem; padding: 0.35rem 0.85rem; }
+
+    &__sub {
+      font-size: 0.95rem;
+      max-width: 100%;
+    }
+
+    &__actions {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      .btn--large { width: 100%; max-width: 320px; justify-content: center; }
+    }
+
+    &__preview {
+      margin-top: 3rem;
+      width: 100%;
+      padding: 0 0.5rem;
+
+      .preview-card {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+
+        .cam-icon { font-size: 2.8rem; }
+        .cam-label { font-size: 0.85rem; }
+
+        // Hide tags that overflow on mobile
+        .emotion-tag--3,
+        .emotion-tag--4 { display: none; }
+      }
+    }
+  }
+
+  // How it works: 1-col stack
+  .how-it-works {
+    padding: 3.5rem 1.2rem;
+
+    &__steps {
+      grid-template-columns: 1fr;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+  }
+
+  // Features: already 1-col at 860px
+  .features {
+    padding: 3.5rem 1.2rem;
+
+    &__inner { gap: 2rem; }
+
+    &__list li { font-size: 0.85rem; }
+
+    // Stack visual below copy
+    &__visual {
+      .float-badge {
+        top: -12px;
+        right: -8px;
+        font-size: 0.68rem;
+        padding: 0.35rem 0.75rem;
+      }
+    }
+  }
+
+  // Emotions: 4-col → 3-col at 768
+  .emotions {
+    padding: 3.5rem 1.2rem;
+    &__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+  }
+
+  // Emotion chips: slightly smaller
+  .emotion-chip {
+    padding: 1.2rem 0.75rem;
+    .chip-emoji { font-size: 1.7rem; }
+  }
+
+  // CTA banner
+  .cta-banner {
+    padding: 2.5rem 1rem;
+    &__inner {
+      padding: 2.5rem 1.5rem;
+    }
+    &__emoji { font-size: 2.4rem; }
+    &__actions {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      .btn--large { width: 100%; max-width: 320px; justify-content: center; }
+    }
+  }
+
+  // Footer: vertical stack
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1.2rem;
+    gap: 0.8rem;
+
+    &__links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  }
+}
+
+// ─── 640px ────────────────────────────────
+@media (max-width: 640px) {
+
+  // Navbar: hide Sign In on very small screens, keep Get Started only
+  .navbar {
+    &__cta .btn--ghost { display: none; }
+  }
+
+  // Hero: bigger headline stays readable via clamp, but floor it
+  .hero {
+    padding: 3rem 1rem;
+
+    &__headline { letter-spacing: -0.02em; }
+
+    &__preview .preview-card {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  // How it works: single card full-width
+  .how-it-works {
+    padding: 3rem 1rem;
+    &__steps { max-width: 100%; }
+  }
+
+  // Features visual: shrink the card
+  .features {
+    padding: 3rem 1rem;
+    &__visual .vis-card {
+      padding: 1.4rem;
+      .emotion-display { padding: 1rem; }
+      .emotion-display .face { font-size: 3rem; }
+    }
+  }
+
+  // Emotions: 2-col
+  .emotions {
+    padding: 3rem 1rem;
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  // Step cards: even more compact
+  .step-card {
+    padding: 1.5rem 1.4rem;
+    gap: 0.75rem;
+  }
+}
+
+// ─── 480px (mobile) ───────────────────────
+@media (max-width: 480px) {
+
+  // Navbar: flush to edges
+  .navbar {
+    margin: 0.5rem 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+
+    .logo-icon { width: 30px; height: 30px; font-size: 0.9rem; }
+    .logo-text  { font-size: 1.1rem; }
+  }
+
+  // Hero
+  .hero {
+    padding: 2.5rem 0.85rem;
+
+    &__badge { font-size: 0.65rem; margin-bottom: 1.2rem; }
+
+    &__sub { font-size: 0.9rem; }
+
+    &__preview {
+      margin-top: 2rem;
+
+      .preview-card {
+        border-radius: 1rem;
+
+        .cam-icon { font-size: 2.2rem; }
+
+        // Hide all floating tags on smallest screens
+        .emotion-tag { display: none; }
+
+        // Keep only top-left corner
+        .corner--tr,
+        .corner--bl,
+        .corner--br { display: none; }
+      }
+    }
+  }
+
+  // Buttons on mobile
+  .btn--large {
+    padding: 0.8rem 1.4rem;
+    font-size: 0.9rem;
+  }
+
+  // Section headings — rely on clamp; just tighten padding
+  .how-it-works,
+  .features,
+  .emotions,
+  .cta-banner { padding-left: 0.85rem; padding-right: 0.85rem; }
+
+  // Emotions: 2-col stays — good on 480px
+  .emotion-chip {
+    padding: 1rem 0.6rem;
+    border-radius: 0.85rem;
+    .chip-emoji { font-size: 1.5rem; }
+    .chip-name  { font-size: 0.72rem; }
+  }
+
+  // Features visual card: remove negative badge on tiny screens
+  .features__visual .float-badge { display: none; }
+
+  // Footer: smaller text
+  .footer {
+    margin: 0 0.5rem;
+    padding: 1.2rem 1rem;
+    &__copy  { font-size: 0.72rem; }
+    &__links a { font-size: 0.72rem; }
+  }
+
+  // Background orbs: shrink so they don't look oversized
+  .home-page__bg {
+    .orb--1 { width: 350px; height: 350px; }
+    .orb--2 { width: 300px; height: 300px; }
+    .orb--3 { width: 200px; height: 200px; }
+    .orb--4 { width: 150px; height: 150px; }
+  }
+}
