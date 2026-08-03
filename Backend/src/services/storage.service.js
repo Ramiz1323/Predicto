@@ -15,6 +15,14 @@ async function uploadFile({ buffer, filename, folder = "" }) {
   return file;
 }
 
+async function toFile(buffer, filename) {
+  const tempFile = new File([buffer], filename, {
+    type: "audio/mpeg",
+  });
+
+  return tempFile;
+}
+
 module.exports = {
   uploadFile
 };
