@@ -18,7 +18,7 @@ const Register = () => {
     setError("");
     try {
       await handleRegister(registerCredentials);
-      navigate("/");
+      navigate("/predict");
     } catch (registerError) {
       setError(registerError?.response?.data?.message || "Unable to create account.");
     }
@@ -182,4 +182,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register;

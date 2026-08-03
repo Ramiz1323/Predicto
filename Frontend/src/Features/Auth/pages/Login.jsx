@@ -19,7 +19,7 @@ const Login = () => {
     setError("");
     try {
       await handleLogin(loginCredentials);
-      navigate("/");
+      navigate("/predict");
     } catch (loginError) {
       setError(loginError?.response?.data?.message || "Unable to log in. Check your credentials.");
     }
