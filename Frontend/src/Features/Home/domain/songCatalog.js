@@ -15,61 +15,57 @@ export const moodCatalog = [
     emoji: '😢',
   },
   {
-    key: 'energetic',
-    label: 'Energetic',
+    key: 'surprised',
+    label: 'surpised',
     description: 'You look pumped! High-energy beats incoming.',
-    emoji: '😠',
+    emoji: '😳',
   },
   {
-    key: 'calm',
-    label: 'Calm',
+    key: 'very happy',
+    label: 'very happy',
     description: 'You seem relaxed. Sit back and enjoy these smooth tracks.',
-    emoji: '😌',
+    emoji: '🥰',
   },
 ];
 
 const songsByMood = {
   happy: [
-    { title: 'Blinding Lights',       artist: 'The Weeknd' },
-    { title: 'Happy',                  artist: 'Pharrell Williams' },
+    { title: 'Blinding Lights', artist: 'The Weeknd' },
+    { title: 'Happy', artist: 'Pharrell Williams' },
     { title: 'Can\'t Stop the Feeling', artist: 'Justin Timberlake' },
-    { title: 'Uptown Funk',            artist: 'Bruno Mars' },
-    { title: 'Good as Hell',           artist: 'Lizzo' },
+    { title: 'Uptown Funk', artist: 'Bruno Mars' },
+    { title: 'Good as Hell', artist: 'Lizzo' },
   ],
   sad: [
-    { title: 'Someone Like You',  artist: 'Adele' },
-    { title: 'Skinny Love',       artist: 'Bon Iver' },
-    { title: 'The Night We Met',  artist: 'Lord Huron' },
-    { title: 'Tears in Heaven',   artist: 'Eric Clapton' },
-    { title: 'Fix You',           artist: 'Coldplay' },
+    { title: 'Someone Like You', artist: 'Adele' },
+    { title: 'Skinny Love', artist: 'Bon Iver' },
+    { title: 'The Night We Met', artist: 'Lord Huron' },
+    { title: 'Tears in Heaven', artist: 'Eric Clapton' },
+    { title: 'Fix You', artist: 'Coldplay' },
   ],
   energetic: [
-    { title: 'Lose Yourself',    artist: 'Eminem' },
+    { title: 'Lose Yourself', artist: 'Eminem' },
     { title: 'Eye of the Tiger', artist: 'Survivor' },
-    { title: 'Thunderstruck',    artist: 'AC/DC' },
-    { title: 'Till I Collapse',  artist: 'Eminem' },
-    { title: 'Power',            artist: 'Kanye West' },
+    { title: 'Thunderstruck', artist: 'AC/DC' },
+    { title: 'Till I Collapse', artist: 'Eminem' },
+    { title: 'Power', artist: 'Kanye West' },
   ],
   calm: [
-    { title: 'Clair de Lune',    artist: 'Claude Debussy' },
-    { title: 'Breathe',          artist: 'Pink Floyd' },
+    { title: 'Clair de Lune', artist: 'Claude Debussy' },
+    { title: 'Breathe', artist: 'Pink Floyd' },
     { title: 'River Flows in You', artist: 'Yiruma' },
     { title: 'Comptine d\'un autre été', artist: 'Yann Tiersen' },
-    { title: 'Weightless',       artist: 'Marconi Union' },
+    { title: 'Weightless', artist: 'Marconi Union' },
   ],
 };
 
-/**
- * Map a raw emotion string from the detector to a mood bucket key.
- * @param {string} emotion – e.g. "happy", "surprised", "angry"
- * @returns {string} one of: 'happy' | 'sad' | 'energetic' | 'calm'
- */
 export function getMoodKeyFromEmotion(emotion = '') {
   const e = emotion.toLowerCase();
-  if (['happy', 'surprised', 'neutral'].includes(e)) return 'happy';
-  if (['sad', 'fearful', 'disgusted'].includes(e))   return 'sad';
-  if (['angry'].includes(e))                          return 'energetic';
-  return 'calm';
+  if (['happy', 'neutral'].includes(e)) return 'happy';
+  if (['sad', 'fearful', 'disgusted'].includes(e)) return 'sad';
+  if (['surprised', 'angry'].includes(e)) return 'surprised';
+  if (['calm', 'very happy'].includes(e)) return 'very happy';
+  return 'happy';
 }
 
 /**
