@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { cleanup, initialize } from "../utils/emotion";
 import Expression from "../components/Expression";
-import { Link } from "react-router-dom";
-import { getMoodKeyFromEmotion, getSongsForMood, moodCatalog } from "../../Home/domain/songCatalog.js";
+import { Link, useNavigate } from "react-router-dom";
+import { getMoodKeyFromEmotion, moodCatalog } from "../../Home/domain/songCatalog.js";
+import "../styles/Expression.scss";
 
 export default function EmotionDetector() {
   const videoRef = useRef(null);
@@ -10,8 +11,8 @@ export default function EmotionDetector() {
   const animationFrameRef = useRef(null);
   const [emotion, setEmotion] = useState("Detecting...");
   const moodKey = getMoodKeyFromEmotion(emotion);
-  const recommendations = getSongsForMood(moodKey);
   const currentMood = moodCatalog.find((item) => item.key === moodKey);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const setup = async () => {
@@ -30,6 +31,12 @@ export default function EmotionDetector() {
     };
   }, []);
 
+  const handleFindMusic = () => {
+    if (emotion && emotion !== "Detecting...") {
+      navigate(`/songsbymood?mood=${moodKey}`);
+    }
+  };
+
   return (
     <main className="app-shell app-shell--detector">
       <section className="section-block detector-layout">
@@ -37,7 +44,7 @@ export default function EmotionDetector() {
           <p className="eyebrow">Mood detector</p>
           <h1>Let the camera pick the next song mood.</h1>
           <p className="hero-text">
-            The detected emotion is translated into the same four mood buckets used by the song library.
+            The detected emotion is translated into one of the four mood buckets.
           </p>
           <Expression videoRef={videoRef} emotion={emotion} />
         </div>
@@ -49,18 +56,19 @@ export default function EmotionDetector() {
 
           <div className="detector-badge">{emotion}</div>
 
-          <div className="recommendations">
-            {recommendations.map((song) => (
-              <article key={song.title} className="recommendation-card">
-                <span>{song.title}</span>
-                <small>{song.artist}</small>
-              </article>
-            ))}
+          <div className="recommendations" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '2rem' }}>
+             <button 
+                className="btn btn--primary btn--large" 
+                onClick={handleFindMusic}
+                disabled={emotion === "Detecting..."}
+             >
+                🎵 Find Music for {currentMood?.label ?? "Mood"}
+             </button>
+             
+             <Link className="btn btn--ghost btn--large" to="/">
+               Back to home
+             </Link>
           </div>
-
-          <Link className="secondary-action secondary-action--full" to="/">
-            Back to home
-          </Link>
         </aside>
       </section>
     </main>
