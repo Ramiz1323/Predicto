@@ -17,6 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //Routes
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to the Predicto" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/songs", songRoutes);
 
