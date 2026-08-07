@@ -3,6 +3,18 @@
 
 export const moodCatalog = [
   {
+    key: 'neutral',
+    label: 'Neutral',
+    description: 'Keep it steady.',
+    emoji: '😐',
+  },
+  {
+    key: '',
+    label: 'Any',
+    description: 'A mix of everything.',
+    emoji: '🎧',
+  },
+  {
     key: 'happy',
     label: 'Happy',
     description: 'You look cheerful! Here are some uplifting tracks for you.',
@@ -16,14 +28,14 @@ export const moodCatalog = [
   },
   {
     key: 'surprised',
-    label: 'surpised',
+    label: 'Surprised',
     description: 'You look pumped! High-energy beats incoming.',
     emoji: '😳',
   },
   {
     key: 'very happy',
-    label: 'very happy',
-    description: 'You seem relaxed. Sit back and enjoy these smooth tracks.',
+    label: 'Very Happy',
+    description: 'You seem amazing. Sit back and enjoy these smooth tracks.',
     emoji: '🥰',
   },
 ];
@@ -43,29 +55,36 @@ const songsByMood = {
     { title: 'Tears in Heaven', artist: 'Eric Clapton' },
     { title: 'Fix You', artist: 'Coldplay' },
   ],
-  energetic: [
+  surprised: [
     { title: 'Lose Yourself', artist: 'Eminem' },
     { title: 'Eye of the Tiger', artist: 'Survivor' },
     { title: 'Thunderstruck', artist: 'AC/DC' },
     { title: 'Till I Collapse', artist: 'Eminem' },
     { title: 'Power', artist: 'Kanye West' },
   ],
-  calm: [
+  "very happy": [
     { title: 'Clair de Lune', artist: 'Claude Debussy' },
     { title: 'Breathe', artist: 'Pink Floyd' },
     { title: 'River Flows in You', artist: 'Yiruma' },
     { title: 'Comptine d\'un autre été', artist: 'Yann Tiersen' },
     { title: 'Weightless', artist: 'Marconi Union' },
   ],
+  neutral: [
+    { title: 'Shape of You', artist: 'Ed Sheeran' }
+  ],
+  "": [
+    { title: 'Random Song', artist: 'Random Artist' }
+  ]
 };
 
 export function getMoodKeyFromEmotion(emotion = '') {
   const e = emotion.toLowerCase();
-  if (['happy', 'neutral'].includes(e)) return 'happy';
+  if (['happy'].includes(e)) return 'happy';
   if (['sad', 'fearful', 'disgusted'].includes(e)) return 'sad';
   if (['surprised', 'angry'].includes(e)) return 'surprised';
-  if (['calm', 'very happy'].includes(e)) return 'very happy';
-  return 'happy';
+  if (['very happy'].includes(e)) return 'very happy';
+  if (['neutral'].includes(e)) return 'neutral';
+  return 'neutral';
 }
 
 /**
